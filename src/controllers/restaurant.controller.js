@@ -3,7 +3,7 @@ const router = express.Router();
 const Restaurant = require("../models/restaurant.model");
 router.get("/", async (req, res) => {
   try {
-    const restaurant = await Restaurant.find().lean().exe();
+    const restaurant = await Restaurant.find().lean().exec();
     return res.status(200).send(restaurant);
   } catch (error) {
     return res.status(400).send({ error: error.message });
