@@ -3,7 +3,9 @@ const router = express.Router();
 const Restaurant = require("../models/restaurant.model");
 router.get("/", async (req, res) => {
   try {
-    const restaurant = await Restaurant.find().lean().exec();
+    await  Restaurant.createIndexes({location:"2dsphere"})
+    const restaurant = await Restaurant.find({ location: { $near: { $geometry: { type: "Point", coordinates: [ 77.57902753891177,12.963268283597573] } }
+}}).lean().exec();
     return res.status(200).send(restaurant);
   } catch (error) {
     return res.status(400).send({ error: error.message });
